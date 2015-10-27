@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Logamatix</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="password">Password:</string>
+    <string name="username">Username:</string>
+    <string name="logon">Login</string>
+    <string name="register">Register</string>
+    <string name="project">Project:</string>
+    <string name="borehole">Borehole:</string>
+    <string name="depthfrom">Depth from:</string>
+    <string name="depthto">Depth to:</string>
+    <string name="intervaltype">Type:</string>
+    <string name="lithcode">Lith code:</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="AddLithology">Add Lithology</string>
+    <string name="ViewLithology">View Lithology</string>
+</resources>
