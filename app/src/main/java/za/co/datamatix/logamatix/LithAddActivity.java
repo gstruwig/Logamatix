@@ -1,13 +1,18 @@
 package za.co.datamatix.logamatix;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 public class LithAddActivity extends AppCompatActivity {
 
@@ -17,6 +22,7 @@ public class LithAddActivity extends AppCompatActivity {
     EditText depthfrom;
     EditText depthto;
     EditText lith1;
+    ProgressDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +30,12 @@ public class LithAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_addlithology);
 
 // Test the SDK is working - temp code
-       // ParseObject testObject = new ParseObject("TestObject");
-      //  testObject.put("foo", "bar");
-      //  testObject.saveInBackground();
+        // ParseObject testObject = new ParseObject("TestObject");
+        //  testObject.put("foo", "bar");
+        //  testObject.saveInBackground();
 
         project =  (EditText)findViewById(R.id.project);
-        borehole =  (EditText)findViewById(R.id.username);
+        borehole =  (EditText)findViewById(R.id.borehole);
         lithtype =  (EditText)findViewById(R.id.lithtype);
         depthfrom =  (EditText)findViewById(R.id.depthfrom);
         depthto =  (EditText)findViewById(R.id.depthto);
@@ -60,19 +66,76 @@ public class LithAddActivity extends AppCompatActivity {
     }
 
     public void addRecord(View view) {
-        // ParseObject testObject = new ParseObject("TestObject");
-        //  testObject.put("foo", "bar");
-        //  testObject.saveInBackground();
+        boolean problem = false;
+        String msg = "";
+        if (project.getText().toString().length() == 0) {
+            problem = true;
+            msg = "Please enter a project name";
+        }
+        else if (borehole.getText().toString().length() == 0) {
+            problem = true;
+            msg = "Please enter a borehole name";
+        }
+        else if (lithtype.getText().toString().length() == 0) {
+            problem = true;
+            msg = "Please enter a lithtype name";
+        }
+        else if (depthfrom.getText().toString().length() == 0) {
+            problem = true;
+            msg = "Please enter a depth from";
+        }
+        else if (depthto.getText().toString().length() == 0) {
+            problem = true;
+            msg = "Please enter a depth to";
+        }
+        if (!problem) {
+            addRecord();
+        }
+        else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);//,R.style.myBackgroundStyle
 
-           ParseObject lithology = new ParseObject("Lithology");
+            alert.setTitle("Error");
+            alert.setMessage(msg);
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+                }
+            });
+            alert.show();
+        }
+    }
 
-        lithology.put("Project",project.toString());
-        lithology.put("Borehole",borehole.toString());
-        lithology.put("IntervalType",lithtype.toString());
-        lithology.put("DepthFrom",depthfrom.toString());
-        lithology.put("DepthTo",depthto.toString());
-        lithology.put("Lith1",lith1.toString());
-        lithology.saveInBackground();
+    private void addRecord() {
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage("Saving");
+        mDialog.setCancelable(false);
+        mDialog.show();
+        final ParseObject lithology = new ParseObject("Lithology");
+
+        lithology.put("Project",project.getText().toString());
+        lithology.put("Borehole",borehole.getText().toString());
+        lithology.put("IntervalType",lithtype.getText().toString());
+        lithology.put("DepthFrom",Integer.parseInt(depthfrom.getText().toString()));
+        lithology.put("DepthTo",Integer.parseInt(depthto.getText().toString()));
+        lithology.put("Lith1",lith1.getText().toString());
+
+        lithology.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    project.setText("");
+                    borehole.setText("");
+                    lithtype.setText("");
+                    depthfrom.setText("");
+                    depthto.setText("");
+                    lith1.setText("");
+                    mDialog.cancel();
+                } else {
+                    // The save failed.
+                    System.out.println("Error updating user data: " + e);
+                    mDialog.cancel();
+                }
+            }
+        });
 
     }
 }
