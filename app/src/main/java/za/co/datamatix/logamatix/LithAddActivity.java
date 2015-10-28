@@ -23,7 +23,7 @@ public class LithAddActivity extends AppCompatActivity {
     EditText depthto;
     EditText lith1;
     ProgressDialog mDialog;
-
+// testing commit
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
