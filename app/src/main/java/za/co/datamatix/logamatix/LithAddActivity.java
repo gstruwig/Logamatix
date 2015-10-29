@@ -63,7 +63,7 @@ public class LithAddActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    } // test
 
     public void addRecord(View view) {
         boolean problem = false;
