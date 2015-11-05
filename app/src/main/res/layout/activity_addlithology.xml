@@ -129,7 +129,8 @@
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/lithcode1" />
+                    android:id="@+id/lithcode1"
+                    style="@style/Base.Widget.AppCompat.Spinner" />
             </TableRow>
 
         </TableLayout>

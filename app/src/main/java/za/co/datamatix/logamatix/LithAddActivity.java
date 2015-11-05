@@ -2,6 +2,7 @@ package za.co.datamatix.logamatix;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 public class LithAddActivity extends AppCompatActivity {
@@ -40,6 +43,8 @@ public class LithAddActivity extends AppCompatActivity {
         depthfrom =  (EditText)findViewById(R.id.depthfrom);
         depthto =  (EditText)findViewById(R.id.depthto);
         lith1 =  (EditText)findViewById(R.id.lithcode1);
+
+
 
     }
 
@@ -105,6 +110,8 @@ public class LithAddActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void addRecord() {
         mDialog = new ProgressDialog(this);
         mDialog.setMessage("Saving");
@@ -122,10 +129,10 @@ public class LithAddActivity extends AppCompatActivity {
         lithology.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    project.setText("");
-                    borehole.setText("");
-                    lithtype.setText("");
-                    depthfrom.setText("");
+                    project.setText(project.getText().toString());
+                    borehole.setText(borehole.getText().toString());
+                    lithtype.setText(lithtype.getText().toString());
+                    depthfrom.setText(depthto.getText().toString());
                     depthto.setText("");
                     lith1.setText("");
                     mDialog.cancel();
@@ -138,4 +145,7 @@ public class LithAddActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 }
